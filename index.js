@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 require('dotenv').config()
 const express = require('express')
 const app = express()
@@ -10,10 +11,10 @@ app.use(cors())
 app.use(express.static('build'))
 
 app.get('/', (request, response) => {
-  response.send("<h1>Hello World!</h1>")
+  response.send('<h1>Hello World!</h1>')
 })
 
-app.get('/api/notes', (request, response) =>{
+app.get('/api/notes', (request, response) => {
   Note.find({}).then(notes => {
     response.json(notes)
   })
@@ -58,9 +59,9 @@ app.delete('/api/notes/:id', (request, response, next) => {
 })
 
 app.put('/api/notes/:id', (request, response, next) => {
-  const {content, important} = request.body
+  const { content, important } = request.body
 
-  Note.findByIdAndUpdate(request.params.id, {content, important}, { new: true, runValidators: true, context: "query" })
+  Note.findByIdAndUpdate(request.params.id, { content, important }, { new: true, runValidators: true, context: 'query' })
     .then(updatedNote => {
       response.json(updatedNote)
     })
@@ -73,8 +74,8 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   }else if (error.name === 'ValidationError'){
-    return response.status(400).json({error: error.message})
-  } 
+    return response.status(400).json({ error: error.message })
+  }
 
   next(error)
 }
